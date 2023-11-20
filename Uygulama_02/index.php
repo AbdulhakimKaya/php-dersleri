@@ -26,9 +26,9 @@ $kurs1_alt_baslik = ucfirst(strtolower($kurs1_alt_baslik));     // bütün harfl
 $kurs2_alt_baslik = ucfirst(strtolower($kurs2_alt_baslik));
 $kurs3_alt_baslik = ucfirst(strtolower($kurs3_alt_baslik));
 
-$kurs1_alt_baslik = substr($kurs1_alt_baslik, 0, 50)."...";     // ilk 50 karakter yazıldı ve sonrasına "..." bırakıldı
-$kurs2_alt_baslik = substr($kurs2_alt_baslik, 0, 50)."...";
-$kurs3_alt_baslik = substr($kurs3_alt_baslik, 0, 50)."...";
+$kurs1_alt_baslik = substr($kurs1_alt_baslik, 0, 50) . "...";     // ilk 50 karakter yazıldı ve sonrasına "..." bırakıldı
+$kurs2_alt_baslik = substr($kurs2_alt_baslik, 0, 50) . "...";
+$kurs3_alt_baslik = substr($kurs3_alt_baslik, 0, 50) . "...";
 
 $kurs1_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs1_baslik));       // baslikdaki bazı karakterler istenilen karakterler ile değiştirilir
 $kurs2_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs2_baslik));
@@ -50,7 +50,7 @@ $kurs3_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs3_basl
 </head>
 <body>
 <div class="container my-3">
-    <h1 class="mb-3"><?php echo title?></h1>
+    <h1 class="mb-3"><?php echo title ?></h1>
     <div class="card mb-3">
         <div class="row">
             <div class="col-3">
@@ -59,7 +59,7 @@ $kurs3_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs3_basl
             <div class="col-9">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?php echo $kurs1_url?>">
+                        <a href="<?php echo $kurs1_url ?>">
                             <?php echo $kurs1_baslik ?>
                         </a>
                     </h5>
@@ -87,7 +87,7 @@ $kurs3_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs3_basl
             <div class="col-9">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?php echo $kurs2_url?>">
+                        <a href="<?php echo $kurs2_url ?>">
                             <?php echo $kurs2_baslik ?>
                         </a>
                     </h5>
@@ -115,7 +115,7 @@ $kurs3_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurs3_basl
             <div class="col-9">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?php echo $kurs3_url?>">
+                        <a href="<?php echo $kurs3_url ?>">
                             <?php echo $kurs3_baslik ?>
                         </a>
                     </h5>
