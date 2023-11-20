@@ -63,8 +63,8 @@ echo "<br>";
 
 
 // eleman sayısı yazdırma
-echo count($notlar)."<br>";
-echo count($plakalar)."<br>";
+echo count($notlar) . "<br>";
+echo count($plakalar) . "<br>";
 
 
 // elemanları tekrarlanma sayılarıyla birlikte yazdırma
@@ -81,14 +81,14 @@ echo "<br>";
 
 // random eleman yazdırma
 $index = array_rand($notlar);
-echo $notlar[$index]."<br>";
+echo $notlar[$index] . "<br>";
 
 $indexes = array_rand($notlar, 3);
 print_r($indexes);
 
 echo " : ";
 
-echo $notlar[$indexes[0]]." ";
-echo $notlar[$indexes[1]]." ";
-echo $notlar[$indexes[2]]."<br>";
+echo $notlar[$indexes[0]] . " ";
+echo $notlar[$indexes[1]] . " ";
+echo $notlar[$indexes[2]] . "<br>";
 

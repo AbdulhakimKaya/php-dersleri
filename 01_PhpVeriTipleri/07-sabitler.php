@@ -11,9 +11,8 @@ const username = "AbdulhakimKaya";
 const password = "123456";
 
 
-
-echo baglanti."<br>";
-echo baglanti2."<br>";
-echo username."<br>";
-echo password."<br>";
+echo baglanti . "<br>";
+echo baglanti2 . "<br>";
+echo username . "<br>";
+echo password . "<br>";
 

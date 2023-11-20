@@ -29,4 +29,4 @@ $Sayi1 = 33;
     Degisken tanimlarken Türkçe karakter kullanılmaz
 */
 
-echo $sayi1 . " " . $sayi2." ".$Sayi1;
+echo $sayi1 . " " . $sayi2 . " " . $Sayi1;
