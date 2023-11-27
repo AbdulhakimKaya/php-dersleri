@@ -10,8 +10,8 @@
 $yas = 20;
 $mezuniyet = "lise";
 
-$sonuc = ($yas >= 18) and ($mezuniyet == "lise");   // true
-$sonuc = ($yas >= 18) and ($mezuniyet == "lise" or $mezuniyet == "üniversite" or $mezuniyet == "yüksek lisans");    // true
+$sonuc = ($yas >= 18 and $mezuniyet == "lise");   // true
+$sonuc = ($yas >= 18 and $mezuniyet == "lise" or $mezuniyet == "üniversite" or $mezuniyet == "yüksek lisans");    // true
 
 /*
     xor
@@ -20,10 +20,11 @@ $sonuc = ($yas >= 18) and ($mezuniyet == "lise" or $mezuniyet == "üniversite" o
     true & false  -> true
     true & true   -> false
 */
-$sonuc = ($yas >= 18) xor ($mezuniyet == "lise");
+$sonuc = ($yas >= 18 xor $mezuniyet == "üniversite");   // true
+$sonuc = ($yas >= 18 xor $mezuniyet == "lise");   // false
 
 $sonuc = !(true);
 
-echo var_dump($sonuc);
+echo var_dump($sonuc);  // false
 echo "<br>";
 
