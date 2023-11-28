@@ -29,7 +29,8 @@ echo yasHesapla(2002);
 echo "<br>";
 
 
-function emekliligeKalanSure($dogumYili, $isim) {
+function emekliligeKalanSure($dogumYili, $isim)
+{
     $yas = yasHesapla($dogumYili);
     $kalanSure = 65 - $yas;
 
