@@ -50,10 +50,6 @@ $kurs1_alt_baslik = ucfirst(strtolower($kurslar["1"]["baslik"]));     // bütün
 $kurs2_alt_baslik = ucfirst(strtolower($kurslar["2"]["baslik"]));
 $kurs3_alt_baslik = ucfirst(strtolower($kurslar["3"]["baslik"]));
 
-$kurs1_alt_baslik = substr($kurslar["1"]["altBaslik"], 0, 50) . "...";     // ilk 50 karakter yazıldı ve sonrasına "..." bırakıldı
-$kurs2_alt_baslik = substr($kurslar["2"]["altBaslik"], 0, 50) . "...";
-$kurs3_alt_baslik = substr($kurslar["3"]["altBaslik"], 0, 50) . "...";
-
 $kurs1_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurslar["1"]["baslik"]));       // baslikdaki bazı karakterler istenilen karakterler ile değiştirilir
 $kurs2_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurslar["2"]["baslik"]));
 $kurs3_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurslar["3"]["baslik"]));
