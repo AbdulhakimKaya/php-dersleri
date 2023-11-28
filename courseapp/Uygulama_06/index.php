@@ -123,7 +123,7 @@ $kurs4_url = str_replace([" ", "@", "."], ["-", "", "-"], strtolower($kurslar["4
                                         <?php echo substr($kurs["altBaslik"], 0, 50) . "..." ?>
                                     </p>
                                 <?php else: ?>
-                                    <p class="card-text"><?php echo $kurslar["1"]["altBaslik"] ?></p>
+                                    <p class="card-text"><?php echo $kurs["altBaslik"] ?></p>
                                 <?php endif; ?>
                                 <p>
                                     <?php if ($kurs["begeniSayisi"] > 0): ?>
