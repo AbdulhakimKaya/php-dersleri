@@ -1,6 +1,7 @@
 <?php
 
-function toplama () {
+function toplama()
+{
     return 20 + 30;
 }
 
@@ -9,11 +10,13 @@ echo toplama();
 echo "<br>";
 
 
-function sene() {
+function sene()
+{
     return date('Y');
 }
 
-function yasHesapla() {
+function yasHesapla()
+{
     return sene() - 2002;
 }
 
@@ -28,7 +31,8 @@ function saat()
     return date('h');
 }
 
-function selamlama() {
+function selamlama()
+{
     if (saat() < 12) {
         return "günaydın";
     } else {
