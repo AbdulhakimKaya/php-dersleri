@@ -8,7 +8,7 @@
     <!--  Bootstrap CSS  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css"/>
 
-    <title>Title</title>
+    <title><?php if (isset($title)) echo $title. " | "; ?> eai.com</title>
 </head>
 <body>
 
