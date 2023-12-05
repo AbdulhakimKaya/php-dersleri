@@ -31,9 +31,9 @@ function kisaAciklama($altBaslik)
 
 function safe_html($data)
 {
-//    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
+    $data = trim($data);                // girilen değerin başındaki ve sonundaki boşlukları siler
+    $data = stripslashes($data);        // gönderilen veri üzerinden sql injection'a karşı bir süzme işlemi yapar
+    $data = htmlspecialchars($data);    // etiketlerin html entity karşılığını getirir
     return $data;
 }
 
