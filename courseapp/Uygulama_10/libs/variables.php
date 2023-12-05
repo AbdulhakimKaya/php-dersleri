@@ -51,4 +51,12 @@ $kurslar = array(
     ),
 );
 
+$sehirler = array(
+    06 => "Adana",
+    21 => "Diyarbakır",
+    23 => "Elazığ",
+    34 => "İstanbul",
+    35 => "İzmir"
+)
+
 ?>
