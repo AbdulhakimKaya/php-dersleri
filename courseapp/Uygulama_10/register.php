@@ -12,9 +12,9 @@ require "libs/functions.php";
 
 <?php
 
-$usernameErr = $emailErr = $passwordErr = $repasswordErr = $cityErr = $hobiesErr = "";
+$usernameErr = $emailErr = $passwordErr = $repasswordErr = $cityErr = $hobbiesErr = "";
 $username = $email = $password = $repassword = $city = "";
-$hobies = [];
+$hobbies = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -54,10 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $city = $_POST["city"];
     }
 
-    if (!isset($_POST["hobies"])) {
-        $hobiesErr = "hobiler seçilmeli" . "<br>";
+    if (!isset($_POST["hobbies"])) {
+        $hobbiesErr = "hobiler seçilmeli" . "<br>";
     } else {
-        $hobies = $_POST["hobies"];
+        $hobbies = $_POST["hobbies"];
     }
 }
 
@@ -103,16 +103,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="badge text-bg-danger p-2 mt-2"><?php echo $cityErr; ?></div>
                 </div>
                 <div class="mb-3">
-                    <label for="hobies">Hobiler</label>
-                    <div class="form-check">
-                        <input type="checkbox" name="hobies[]" value="sinema" id="hobies_0">
-                        <label for="hobies_0" class="form-check-label">Sinema</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="checkbox" name="hobies[]" value="fotografcilik" id="hobies_1">
-                        <label for="hobies_1" class="form-check-label">Fotoğrafçılık</label>
-                    </div>
-                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $hobiesErr; ?></div>
+                    <label for="hobbies">Hobiler</label>
+                    <?php foreach ($hobiler as $id => $hobi): ?>
+                        <div class="form-check">
+                            <input
+                                    type="checkbox"
+                                    name="hobbies[]"
+                                    value="<?php echo $hobi ?>"
+                                    id="hobbies_<?php echo $id ?>"
+                                <?php if (in_array($hobi, $hobbies)) echo 'checked' ?>
+                            >
+                            <label for="hobbies_<?php echo $id ?>" class="form-check-label"><?php echo $hobi ?></label>
+                        </div>
+                    <?php endforeach ?>
+                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $hobbiesErr; ?></div>
                 </div>
         </div>
         <button type="submit" class="btn btn-primary">Kayıt Ol</button>

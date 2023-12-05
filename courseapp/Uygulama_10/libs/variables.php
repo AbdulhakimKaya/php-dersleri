@@ -57,6 +57,12 @@ $sehirler = array(
     23 => "Elazığ",
     34 => "İstanbul",
     35 => "İzmir"
-)
+);
+
+$hobiler = array(
+    1 => "Sinema",
+    2 => "Fotoğrafçılık",
+    3 => "Müzik",
+);
 
 ?>
