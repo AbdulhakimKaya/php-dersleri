@@ -21,31 +21,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["username"])) {
         $usernameErr = "username gerekli alan" . "<br>";
     } else {
-        $username = $_POST["username"];
+        $username = safe_html($_POST["username"]);
     }
 
     if (empty($_POST["email"])) {
         $emailErr = "email gerekli alan" . "<br>";
     } else {
-        $email = $_POST["email"];
+        $email = safe_html($_POST["email"]);
     }
 
     if (empty($_POST["password"])) {
         $passwordErr = "password gerekli alan" . "<br>";
     } else {
-        $password = $_POST["password"];
+        $password = safe_html($_POST["password"]);
     }
 
     if (empty($_POST["repassword"])) {
         $repasswordErr = "repassword gerekli alan" . "<br>";
     } else {
-        $repassword = $_POST["repassword"];
+        $repassword = safe_html($_POST["repassword"]);
     }
 
     if (($_POST["password"]) != ($_POST["repassword"])) {
         $repasswordErr = "parola tekrarı alanı eşleşmiyor" . "<br>";
     } else {
-        $repassword = $_POST["repassword"];
+        $repassword = safe_html($_POST["repassword"]);
     }
 
     if (($_POST["city"]) == -1) {
