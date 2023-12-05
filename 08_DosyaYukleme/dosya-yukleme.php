@@ -3,44 +3,66 @@
 // Dosya yükleme
 
 if (isset($_POST['btnFileUpload']) && $_POST['btnFileUpload'] == "Upload") {
-    echo "<pre>";
-    print_r($_FILES['fileToUpload']);
-    print_r($_POST);
-    echo "</pre>";
 
-    // Dosyanın klasöre kaydedilmesi
+    // Kontrolümüz dışında oluşan hataların kontrol edilmesi
+    if (isset($_FILES["fileToUpload"]) && $_FILES["fileToUpload"]["error"] == 0) {
 
-    // Dosya özelliklerinin kontrolü
+        echo "<pre>";
+        print_r($_FILES['fileToUpload']);
+        print_r($_POST);
+        echo "</pre>";
 
-    $uploadOk = true;
+        // Dosyanın klasöre kaydedilmesi
 
-    $dest_path = "./uploadedFiles/";
+        // Dosya özelliklerinin kontrolü
 
-    $filename = $_FILES["fileToUpload"]["name"];
-    $fileSize = $_FILES["fileToUpload"]["size"];
+        $uploadOk = true;
 
-    if (empty($filename)) {
-        $uploadOk = false;
-        echo "dosya seçiniz" . "<br>";
-    }
+        $dest_path = "./uploadedFiles/";
 
-    if ($fileSize > 100000) {
-        $uploadOk = false;
-        echo "Dosya boyutu fazla" . "<br>";
-    }
+        $filename = $_FILES["fileToUpload"]["name"];
+        $fileSize = $_FILES["fileToUpload"]["size"];
+        $dosyaUzantilari = array('jpg', 'jpeg', 'png');
 
-    $fileSourcePath = $_FILES["fileToUpload"]["tmp_name"];
-
-    $fileDestPath = $dest_path . $filename;
-
-    if (!$uploadOk) {
-        echo "dosya yüklenmedi" . "<br>";
-    } else {
-        if (move_uploaded_file($fileSourcePath, $fileDestPath)) {
-            echo "dosya yüklendi" . "<br>";
-        } else {
-            echo "hata" . "<br>";
+        if (empty($filename)) {
+            $uploadOk = false;
+            echo "dosya seçiniz" . "<br>";
         }
+
+        if ($fileSize > 100000) {
+            $uploadOk = false;
+            echo "Dosya boyutu fazla" . "<br>";
+        }
+
+
+        // Dosya isminin güncellenmesi
+
+        $dosyaAdi = explode(".", $filename);
+        $dosyaAdiUzantisiz = $dosyaAdi[0];
+        $dosyaAdiUzantisi = $dosyaAdi[1];
+
+        if (!in_array($dosyaAdiUzantisi, $dosyaUzantilari)) {
+            $uploadOk = false;
+            echo "dosya uzantısı kabul edilmiyor" . "<br>";
+            echo "kabul edilen dosyalar: " . implode(", ", $dosyaUzantilari) . "<br>";
+        }
+
+        $yeniDosyaAdi = md5(time() . $dosyaAdiUzantisiz) . '.' . $dosyaAdiUzantisi;
+
+        $fileSourcePath = $_FILES["fileToUpload"]["tmp_name"];
+        $fileDestPath = $dest_path . $yeniDosyaAdi;
+
+        if (!$uploadOk) {
+            echo "dosya yüklenmedi" . "<br>";
+        } else {
+            if (move_uploaded_file($fileSourcePath, $fileDestPath)) {
+                echo "dosya yüklendi" . "<br>";
+            } else {
+                echo "hata" . "<br>";
+            }
+        }
+    } else {
+        echo "Hata oluştu";
     }
 }
 
