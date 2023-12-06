@@ -2,6 +2,12 @@
 
 const title = "Popüler Kurslar";
 
+const db_user = array(
+    "username" => "abdulhakimkaya",
+    "password" => "12345",
+    "name" => "Abdulhakim KAYA"
+);
+
 const db_username = "abdulhakimkaya";
 const db_password = "12345";
 

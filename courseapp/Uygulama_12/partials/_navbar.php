@@ -22,9 +22,12 @@ if (!empty($_GET['q'])) {
         </ul>
 
         <ul class="navbar-nav me-2">
-            <?php if (isset($_COOKIE["username"])): ?>
+            <?php // if (isset($_COOKIE["username"])): ?>
+
+            <!-- dizinin cookie ile saklanması -->
+            <?php if (isset($_COOKIE["auth"])): ?>
                 <li class="nav-item">
-                    <a href="login.php" class="nav-link active">Hoşgeldiniz, <?php echo $_COOKIE["username"] ?></a>
+                    <a href="login.php" class="nav-link active">Hoşgeldiniz, <?php echo $_COOKIE["auth"]["name"]    // $_COOKIE["username"] ?></a>
                 </li>
                 <li class="nav-item">
                     <a href="logout.php" class="nav-link active">Çıkış Yap</a>
