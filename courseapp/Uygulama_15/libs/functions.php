@@ -13,6 +13,22 @@ function getCategories()
 }
 
 
+function createCategory(string $kategori)
+{
+    include 'ayar.php';
+
+    $query = "INSERT INTO kategoriler(kategori_adi) VALUES (?)";
+    $stmt = mysqli_prepare($baglanti, $query);
+
+    mysqli_stmt_bind_param($stmt, 's', $kategori);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+
+    return $stmt;
+}
+
+
 function getDb()
 {
     $myFile = fopen("db.json", "r");
