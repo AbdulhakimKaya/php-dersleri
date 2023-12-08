@@ -34,10 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $altBaslik = safe_html($_POST["altBaslik"]);
     }
-    if (empty($_POST["resim"])) {
-        $resimErr = "resim gerekli alan" . "<br>";
+    if (empty($_FILES["imageFile"]["name"])) {
+        $resim = $selectedCourse["resim"];
     } else {
-        $resim = safe_html($_POST["resim"]);
+        uploadImage($_FILES["imageFile"]);
+        $resim = $_FILES["imageFile"]["name"];
     }
 
     $onay = $_POST["onay"] == "on" ? 1 : 0;
@@ -56,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="row">
         <div class="col-12">
             <div class="card card-body">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="baslik">Başlık</label>
                         <input type="text" name="baslik" class="form-control"
@@ -69,11 +70,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   class="form-control"><?php echo $selectedCourse["altBaslik"]; ?></textarea>
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $altBaslikErr; ?></div>
                     </div>
-                    <div class="mb-3">
-                        <label for="resim">Resim</label>
-                        <input type="text" name="resim" class="form-control"
-                               value="<?php echo $selectedCourse["resim"]; ?>">
+                    <div>
+                        <div class="input-group mb-3">
+                            <input type="file" name="imageFile" id="imageFile" class="form-control">
+                            <label for="imageFile" class="input-group-text">Yükle</label>
+                        </div>
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $resimErr; ?></div>
+                        <img src="img/<?php echo $selectedCourse["resim"]; ?>" style="width: 150px" alt="">
                     </div>
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" name="onay"

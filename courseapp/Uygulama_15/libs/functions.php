@@ -122,6 +122,20 @@ function editCourse(int $id, string $baslik, string $altBaslik, string $resim, i
     return $sonuc;
 }
 
+
+function uploadImage(array $file)
+{
+    if (isset($file)) {
+        $destPath = "./img/";
+        $fileName = $file["name"];
+        $fileSourcePath = $file["tmp_name"];
+        $fileDestPath = $destPath.$fileName;
+
+        move_uploaded_file($fileSourcePath, $fileDestPath);
+    }
+}
+
+
 function getDb()
 {
     $myFile = fopen("db.json", "r");
