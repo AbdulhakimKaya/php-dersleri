@@ -97,6 +97,31 @@ function createCourse(string $baslik, string $altBaslik, string $resim, int $yor
 }
 
 
+function getCourseById(int $id)
+{
+    include 'ayar.php';
+
+    $query = "SELECT * from kurslar WHERE id='$id'";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
+function editCourse(int $id, string $baslik, string $altBaslik, string $resim, int $onay)
+{
+    include 'ayar.php';
+
+    $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', resim='$resim', onay='$onay' WHERE id=$id";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
 function getDb()
 {
     $myFile = fopen("db.json", "r");
