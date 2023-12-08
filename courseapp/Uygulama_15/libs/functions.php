@@ -39,6 +39,19 @@ function editCategory(int $id, string $category)
 }
 
 
+function deleteCategory(int $id)
+{
+    include 'ayar.php';
+
+    $query = "DELETE from kategoriler WHERE id='$id'";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
 function createCategory(string $kategori)
 {
     include 'ayar.php';
