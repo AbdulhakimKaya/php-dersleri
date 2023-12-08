@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($categoryErr)) {
         if (editCategory($id, $category)) {
-            createCategory($category);
             $_SESSION["message"] = $category . " isimli kategori güncellendi";
             $_SESSION["type"] = "success";
             header('Location: admin-categories.php');
