@@ -68,6 +68,19 @@ function createCategory(string $kategori)
 }
 
 
+function getCourses()
+{
+    include 'ayar.php';
+
+    $query = "SELECT * from kurslar";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
 function getDb()
 {
     $myFile = fopen("db.json", "r");
