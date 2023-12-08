@@ -13,6 +13,32 @@ function getCategories()
 }
 
 
+function getCategoryById(int $id)
+{
+    include 'ayar.php';
+
+    $query = "SELECT * from kategoriler WHERE id='$id'";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
+function editCategory(int $id, string $category)
+{
+    include 'ayar.php';
+
+    $query = "UPDATE kategoriler SET kategori_adi='$category' WHERE id='$id'";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
 function createCategory(string $kategori)
 {
     include 'ayar.php';
