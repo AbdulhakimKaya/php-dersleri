@@ -45,7 +45,19 @@ require "libs/functions.php";
                             <?php echo $course["baslik"] ?>
                         </td>
                         <td>
-                            <?php echo $course["kategori_adi"] ?>
+                            <?php
+                            echo "<ul>";
+                            $result = getCategoriesByCourseId($course["id"]);
+
+                            if (mysqli_num_rows($result) > 0) {
+                                while ($category = mysqli_fetch_assoc($result)) {
+                                    echo "<li>" . $category["kategori_adi"] . "</li>";
+                                }
+                            } else {
+                                echo "<li>Kategori seçilmedi!</li>";
+                            }
+                            echo "</ul>";
+                            ?>
                         </td>
                         <td>
                             <?php if ($course["onay"]): ?>
