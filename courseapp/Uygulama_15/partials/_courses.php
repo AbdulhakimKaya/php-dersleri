@@ -1,6 +1,17 @@
-<?php foreach (getDb()["kurslar"] as $kurs): ?>
+<?php
 
-    <?php if ($kurs["onay"]): ?>
+if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
+    $selectedCategory = $_GET["categoryid"];
+    $sonuc = getCoursesByCategoryId($selectedCategory);
+} else {
+    $sonuc = getCourses();
+}
+
+?>
+
+<?php if (mysqli_num_rows($sonuc) > 0): ?>
+
+    <?php while ($kurs = mysqli_fetch_assoc($sonuc)): ?>
         <div class="card mb-3">
             <div class="row">
                 <div class="col-4">
@@ -39,6 +50,12 @@
                 </div>
             </div>
         </div>
-    <?php endif ?>
+    <?php endwhile; ?>
 
-<?php endforeach ?>
+<?php else: ?>
+
+    <div class="alert alert-warning">
+        Kurs bulunamadı!
+    </div>
+
+<?php endif; ?>

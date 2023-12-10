@@ -123,6 +123,19 @@ function getCourseById(int $id)
 }
 
 
+function getCoursesByCategoryId(int $id)
+{
+    include 'ayar.php';
+
+    $query = "SELECT * from kurs_kategori kc inner join kurslar k on kc.kurs_id=k.id WHERE kc.kategori_id=$id and onay=1";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
 function editCourse(int $id, string $baslik, string $altBaslik, string $resim, int $onay)
 {
     include 'ayar.php';
