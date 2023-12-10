@@ -21,6 +21,8 @@ $selectedCourse = mysqli_fetch_assoc($sonuc);
 $baslik = $baslikErr = "";
 $altBaslik = $altBaslikErr = "";
 $resim = $resimErr = "";
+$category = "0";
+$categoryErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -29,11 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $baslik = safe_html($_POST["baslik"]);
     }
+
     if (empty($_POST["altBaslik"])) {
         $altBaslikErr = "altBaslik gerekli alan" . "<br>";
     } else {
         $altBaslik = safe_html($_POST["altBaslik"]);
     }
+
     if (empty($_FILES["imageFile"]["name"])) {
         $resim = $selectedCourse["resim"];
     } else {
@@ -41,10 +45,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resim = $_FILES["imageFile"]["name"];
     }
 
+    if ($_POST["category"] == "0") {
+        $categoryErr = "kategori seçmelisiniz";
+    } else {
+        $category = $_POST["category"];
+    }
+
     $onay = $_POST["onay"] == "on" ? 1 : 0;
 
-    if (empty($baslikErr) or empty($altBaslikErr) or empty($resimErr)) {
-        editCourse($id, $baslik, $altBaslik, $resim, $onay);
+    if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr) && empty($categoryErr)) {
+        editCourse($id, $baslik, $altBaslik, $resim, $category, $onay);
         $_SESSION["message"] = $baslik . " isimli kurs güncellendi";
         $_SESSION["type"] = "success";
         header('Location: admin-courses.php');
@@ -78,6 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $resimErr; ?></div>
                         <img src="img/<?php echo $selectedCourse["resim"]; ?>" style="width: 150px" alt="">
                     </div>
+                    <div class="mb-3">
+                        <label for="category">Kategori</label>
+                        <select name="category" id="category" class="for-select">
+                            <option value="0" selected>Seçiniz..</option>
+                            <?php foreach (getCategories() as $c): ?>
+                                <option value="<?php echo $c["id"] ?>"><?php echo $c["kategori_adi"] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $categoryErr; ?></div>
+                    <script type="text/javascript">
+                        document.getElementById("category").value = "<?php echo $selectedCourse["kategori_id"] ?>"
+                    </script>
                     <div class="form-check mb-3">
                         <input class="form-check-input" type="checkbox" name="onay"
                                id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>

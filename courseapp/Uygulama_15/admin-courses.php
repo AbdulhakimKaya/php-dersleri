@@ -26,6 +26,7 @@ require "libs/functions.php";
                     <th style="width: 50px">Id</th>
                     <th style="width: 150px"></th>
                     <th>Başlık</th>
+                    <th>Kategori</th>
                     <th style="width: 50px">Onay</th>
                     <th style="width: 150px"></th>
                 </tr>
@@ -42,6 +43,9 @@ require "libs/functions.php";
                         </td>
                         <td>
                             <?php echo $course["baslik"] ?>
+                        </td>
+                        <td>
+                            <?php echo $course["kategori_adi"] ?>
                         </td>
                         <td>
                             <?php if ($course["onay"]): ?>
