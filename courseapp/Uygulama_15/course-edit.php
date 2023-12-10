@@ -64,9 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <div class="container my-3">
-    <div class="row">
-        <div class="col-12">
-            <div class="card card-body">
+    <div class="card card-body">
+        <div class="row">
+            <div class="col-9">
                 <form method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="baslik">Başlık</label>
@@ -80,37 +80,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                   class="form-control"><?php echo $selectedCourse["altBaslik"]; ?></textarea>
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $altBaslikErr; ?></div>
                     </div>
-                    <div>
+                    <div class="mb-3">
                         <div class="input-group mb-3">
                             <input type="file" name="imageFile" id="imageFile" class="form-control">
                             <label for="imageFile" class="input-group-text">Yükle</label>
                         </div>
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $resimErr; ?></div>
-                        <img src="img/<?php echo $selectedCourse["resim"]; ?>" style="width: 150px" alt="">
-                    </div>
-                    <div class="mb-3">
-                        <label for="category">Kategori</label>
-                        <select name="category" id="category" class="for-select">
-                            <option value="0" selected>Seçiniz..</option>
-                            <?php foreach (getCategories() as $c): ?>
-                                <option value="<?php echo $c["id"] ?>"><?php echo $c["kategori_adi"] ?></option>
-                            <?php endforeach; ?>
-                        </select>
                     </div>
                     <div class="badge text-bg-danger p-2 mt-2"><?php echo $categoryErr; ?></div>
                     <script type="text/javascript">
                         document.getElementById("category").value = "<?php echo $selectedCourse["kategori_id"] ?>"
                     </script>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" name="onay"
-                               id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>
-                        <label class="form-check-label" for="onay">
-                            Onay
-                        </label>
-                    </div>
 
                     <button type="submit" class="btn btn-primary">Kaydet</button>
                 </form>
+            </div>
+            <div class="col-3">
+                <img src="img/<?php echo $selectedCourse["resim"]; ?>" class="img-fluid" alt="">
+
+                <hr>
+
+                <?php foreach (getCategories() as $c): ?>
+                    <div class="form-check">
+                        <label for="category_<?php echo $c["id"] ?>"><?php echo $c["kategori_adi"] ?></label>
+                        <input type="checkbox" id="category_<?php echo $c["id"] ?>" class="form-check-input"
+
+                            <?php
+                            $isChecked = false;
+                            $selectedCategories = getCategoriesByCourseId($selectedCourse["id"]);
+
+                            foreach ($selectedCategories as $selectedCat) {
+                                if ($selectedCat["id"] == $c["id"]) {
+                                    $isChecked = true;
+                                }
+                            }
+
+                            if ($isChecked) {
+                                echo "checked";
+                            }
+
+                            ?>
+
+                        >
+                    </div>
+                <?php endforeach; ?>
+
+                <hr>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="onay"
+                           id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>
+                    <label class="form-check-label" for="onay">
+                        Onay
+                    </label>
+                </div>
             </div>
         </div>
     </div>
