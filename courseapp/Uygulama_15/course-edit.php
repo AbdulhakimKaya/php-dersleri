@@ -21,8 +21,6 @@ $selectedCourse = mysqli_fetch_assoc($sonuc);
 $baslik = $baslikErr = "";
 $altBaslik = $altBaslikErr = "";
 $resim = $resimErr = "";
-$category = "0";
-$categoryErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -45,19 +43,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resim = $_FILES["imageFile"]["name"];
     }
 
-    if ($_POST["category"] == "0") {
-        $categoryErr = "kategori seçmelisiniz";
-    } else {
-        $category = $_POST["category"];
-    }
-
     $onay = $_POST["onay"] == "on" ? 1 : 0;
 
-    if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr) && empty($categoryErr)) {
-        editCourse($id, $baslik, $altBaslik, $resim, $category, $onay);
-        $_SESSION["message"] = $baslik . " isimli kurs güncellendi";
-        $_SESSION["type"] = "success";
-        header('Location: admin-courses.php');
+    $categories = [];
+
+    if (isset($_POST["categories"])) {
+        $categories = $_POST["categories"];
+    }
+
+    if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr)) {
+        if (editCourse($id, $baslik, $altBaslik, $resim, $onay)) {
+            clearCourseCategories($id);
+            if (count($categories) > 0) {
+                addCourseCategories($id, $categories);
+            }
+
+            $_SESSION["message"] = $baslik . " isimli kurs güncellendi";
+            $_SESSION["type"] = "success";
+            header('Location: admin-courses.php');
+        }
     }
 }
 
@@ -65,9 +69,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container my-3">
     <div class="card card-body">
-        <div class="row">
-            <div class="col-9">
-                <form method="POST" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
                     <div class="mb-3">
                         <label for="baslik">Başlık</label>
                         <input type="text" name="baslik" class="form-control"
@@ -87,55 +91,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $resimErr; ?></div>
                     </div>
-                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $categoryErr; ?></div>
-                    <script type="text/javascript">
-                        document.getElementById("category").value = "<?php echo $selectedCourse["kategori_id"] ?>"
-                    </script>
 
                     <button type="submit" class="btn btn-primary">Kaydet</button>
-                </form>
-            </div>
-            <div class="col-3">
-                <img src="img/<?php echo $selectedCourse["resim"]; ?>" class="img-fluid" alt="">
+                </div>
+                <div class="col-3">
+                    <img src="img/<?php echo $selectedCourse["resim"]; ?>" class="img-fluid" alt="">
+                    <hr>
+                    <?php foreach (getCategories() as $c): ?>
+                        <div class="form-check">
+                            <label for="category_<?php echo $c["id"] ?>"><?php echo $c["kategori_adi"] ?></label>
+                            <input type="checkbox" name="categories[]" value="<?php echo $c["id"] ?>"
+                                   id="category_<?php echo $c["id"] ?>" class="form-check-input"
+                                <?php
+                                $isChecked = false;
+                                $selectedCategories = getCategoriesByCourseId($selectedCourse["id"]);
 
-                <hr>
-
-                <?php foreach (getCategories() as $c): ?>
-                    <div class="form-check">
-                        <label for="category_<?php echo $c["id"] ?>"><?php echo $c["kategori_adi"] ?></label>
-                        <input type="checkbox" id="category_<?php echo $c["id"] ?>" class="form-check-input"
-
-                            <?php
-                            $isChecked = false;
-                            $selectedCategories = getCategoriesByCourseId($selectedCourse["id"]);
-
-                            foreach ($selectedCategories as $selectedCat) {
-                                if ($selectedCat["id"] == $c["id"]) {
-                                    $isChecked = true;
+                                foreach ($selectedCategories as $selectedCat) {
+                                    if ($selectedCat["id"] == $c["id"]) {
+                                        $isChecked = true;
+                                    }
                                 }
-                            }
-
-                            if ($isChecked) {
-                                echo "checked";
-                            }
-
-                            ?>
-
-                        >
+                                if ($isChecked) {
+                                    echo "checked";
+                                }
+                                ?>
+                            >
+                        </div>
+                    <?php endforeach; ?>
+                    <hr>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="onay"
+                               id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>
+                        <label class="form-check-label" for="onay">
+                            Onay
+                        </label>
                     </div>
-                <?php endforeach; ?>
-
-                <hr>
-
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" name="onay"
-                           id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>
-                    <label class="form-check-label" for="onay">
-                        Onay
-                    </label>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 

@@ -123,16 +123,47 @@ function getCourseById(int $id)
 }
 
 
-function editCourse(int $id, string $baslik, string $altBaslik, string $resim, int $kategori_id, int $onay)
+function editCourse(int $id, string $baslik, string $altBaslik, string $resim, int $onay)
 {
     include 'ayar.php';
 
-    $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', resim='$resim', kategori_id=$kategori_id, onay=$onay WHERE id=$id";
+    $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', resim='$resim', onay=$onay WHERE id=$id";
     $sonuc = mysqli_query($baglanti, $query);
 
     mysqli_close($baglanti);
 
     return $sonuc;
+}
+
+
+function clearCourseCategories(int $id)
+{
+    include 'ayar.php';
+
+    $query = "DELETE from kurs_kategori WHERE kurs_id=$id";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
+function addCourseCategories(int $id, array $categories)
+{
+    include 'ayar.php';
+
+    $query = "";
+    foreach ($categories as $catid) {
+        $query .= "INSERT INTO kurs_kategori(kurs_id,kategori_id) VALUES($id,$catid);";
+    }
+
+    $sonuc = mysqli_multi_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+
 }
 
 
@@ -142,7 +173,7 @@ function uploadImage(array $file)
         $destPath = "./img/";
         $fileName = $file["name"];
         $fileSourcePath = $file["tmp_name"];
-        $fileDestPath = $destPath.$fileName;
+        $fileDestPath = $destPath . $fileName;
 
         move_uploaded_file($fileSourcePath, $fileDestPath);
     }
