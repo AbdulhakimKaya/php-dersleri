@@ -94,14 +94,14 @@ function getCategoriesByCourseId(int $courseId)
 }
 
 
-function createCourse(string $baslik, string $altBaslik, string $resim, int $kategori_id, int $yorumSayisi = 0, int $begeniSayisi = 0, int $onay = 0)
+function createCourse(string $baslik, string $altBaslik, string $resim, int $yorumSayisi = 0, int $begeniSayisi = 0, int $onay = 0)
 {
     include 'ayar.php';
 
-    $query = "INSERT INTO kurslar(baslik,altBaslik,resim,kategori_id,yorumSayisi,begeniSayisi,onay) VALUES (?,?,?,?,?,?,?)";
+    $query = "INSERT INTO kurslar(baslik,altBaslik,resim,yorumSayisi,begeniSayisi,onay) VALUES (?,?,?,?,?,?)";
     $stmt = mysqli_prepare($baglanti, $query);
 
-    mysqli_stmt_bind_param($stmt, 'sssiiii', $baslik, $altBaslik, $resim, $kategori_id, $yorumSayisi, $begeniSayisi, $onay);
+    mysqli_stmt_bind_param($stmt, 'sssiii', $baslik, $altBaslik, $resim, $yorumSayisi, $begeniSayisi, $onay);
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);
@@ -128,6 +128,19 @@ function editCourse(int $id, string $baslik, string $altBaslik, string $resim, i
     include 'ayar.php';
 
     $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', resim='$resim', onay=$onay WHERE id=$id";
+    $sonuc = mysqli_query($baglanti, $query);
+
+    mysqli_close($baglanti);
+
+    return $sonuc;
+}
+
+
+function deleteCourse(int $id)
+{
+    include 'ayar.php';
+
+    $query = "DELETE from kurslar WHERE id='$id'";
     $sonuc = mysqli_query($baglanti, $query);
 
     mysqli_close($baglanti);
