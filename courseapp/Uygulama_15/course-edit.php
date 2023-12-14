@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($_POST["aciklama"])) {
-        $aciklamaErr = "altBaslik gerekli alan" . "<br>";
+        $aciklamaErr = "aciklama gerekli alan" . "<br>";
     } else {
         $aciklama = safe_html($_POST["aciklama"]);
     }
@@ -51,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $onay = $_POST["onay"] == "on" ? 1 : 0;
+    $anasayfa = $_POST["anasayfa"] == "on" ? 1 : 0;
 
     $categories = [];
 
@@ -59,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr) && empty($aciklamaErr)) {
-        if (editCourse($id, $baslik, $altBaslik, $aciklama, $resim, $onay)) {
+        if (editCourse($id, $baslik, $altBaslik, $aciklama, $resim, $onay, $anasayfa)) {
             clearCourseCategories($id);
             if (count($categories) > 0) {
                 addCourseCategories($id, $categories);
@@ -137,6 +138,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                id="onay" <?php echo $selectedCourse["onay"] ? "checked" : "" ?>>
                         <label class="form-check-label" for="onay">
                             Onay
+                        </label>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="anasayfa"
+                               id="anasayfa" <?php echo $selectedCourse["anasayfa"] ? "checked" : "" ?>>
+                        <label class="form-check-label" for="anasayfa">
+                            Anasayfa
                         </label>
                     </div>
                 </div>

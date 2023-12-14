@@ -28,11 +28,12 @@ require "libs/functions.php";
                     <th>Başlık</th>
                     <th>Kategori</th>
                     <th style="width: 50px">Onay</th>
+                    <th style="width: 50px">Anasayfa</th>
                     <th style="width: 150px"></th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $sonuc = getCourses();
+                <?php $sonuc = getCourses(false, false);
                 while ($course = mysqli_fetch_assoc($sonuc)): ?>
                     <tr>
                         <td>
@@ -61,6 +62,13 @@ require "libs/functions.php";
                         </td>
                         <td>
                             <?php if ($course["onay"]): ?>
+                                <i class="fas fa-check"></i>
+                            <?php else: ?>
+                                <i class="fas fa-times"></i>
+                            <?php endif ?>
+                        </td>
+                        <td>
+                            <?php if ($course["anasayfa"]): ?>
                                 <i class="fas fa-check"></i>
                             <?php else: ?>
                                 <i class="fas fa-times"></i>

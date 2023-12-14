@@ -68,11 +68,24 @@ function createCategory(string $kategori)
 }
 
 
-function getCourses()
+function getCourses(bool $anasayfa, bool $onay)
 {
     include 'ayar.php';
 
-    $query = "SELECT * from kurslar";
+    $query = "SELECT * from kurslar ";
+
+    if ($anasayfa) {
+        $query .= "WHERE anasayfa=1";
+    }
+
+    if ($onay) {
+        if (str_contains($query, "WHERE")) {
+            $query .= " and onay=1";
+        } else {
+            $query .= "WHERE onay=1";
+        }
+    }
+
     $sonuc = mysqli_query($baglanti, $query);
 
     mysqli_close($baglanti);
@@ -149,11 +162,11 @@ function getCoursesByKeyword(string $q)
 }
 
 
-function editCourse(int $id, string $baslik, string $altBaslik, string $aciklama, string $resim, int $onay)
+function editCourse(int $id, string $baslik, string $altBaslik, string $aciklama, string $resim, int $onay, int $anasayfa)
 {
     include 'ayar.php';
 
-    $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', aciklama='$aciklama', resim='$resim', onay=$onay WHERE id=$id";
+    $query = "UPDATE kurslar SET baslik='$baslik', altBaslik='$altBaslik', aciklama='$aciklama', resim='$resim', onay=$onay, anasayfa=$anasayfa WHERE id=$id";
     $sonuc = mysqli_query($baglanti, $query);
 
     mysqli_close($baglanti);

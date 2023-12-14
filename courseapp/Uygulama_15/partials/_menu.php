@@ -6,6 +6,7 @@ if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
 
 
 <div class="list-group">
+    <a href="courses.php" class="list-group-item list-group-item-action">Tüm Kurslar</a>
     <?php
         $sonuc = getCategories();
         while ($category = mysqli_fetch_assoc($sonuc)):
