@@ -3,6 +3,8 @@
 if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
     $selectedCategory = $_GET["categoryid"];
     $sonuc = getCoursesByCategoryId($selectedCategory);
+} elseif (isset($_GET["q"])) {
+    $sonuc = getCoursesByKeyword($_GET["q"]);
 } else {
     $sonuc = getCourses();
 }

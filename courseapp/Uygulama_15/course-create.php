@@ -17,6 +17,7 @@ session_start();
 $baslik = $baslikErr = "";
 $altBaslik = $altBaslikErr = "";
 $resim = $resimErr = "";
+$aciklama = $aciklamaErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -32,6 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $altBaslik = safe_html($_POST["altBaslik"]);
     }
 
+    if (empty($_POST["aciklama"])) {
+        $aciklamaErr = "altBaslik gerekli alan" . "<br>";
+    } else {
+        $aciklama = safe_html($_POST["aciklama"]);
+    }
+
     if (!empty($_POST[$_FILES["imageFile"]["name"]])) {
         $resimErr = "resim gerekli alan" . "<br>";
     } else {
@@ -39,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $resim = $_FILES["imageFile"]["name"];
     }
 
-    if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr)) {
-        createCourse($baslik, $altBaslik, $resim);
+    if (empty($baslikErr) && empty($altBaslikErr) && empty($resimErr) && empty($aciklamaErr)) {
+        createCourse($baslik, $altBaslik, $aciklama, $resim);
         $_SESSION["message"] = $baslik . " isimli kurs eklendi";
         $_SESSION["type"] = "success";
         header('Location: admin-courses.php');
@@ -61,8 +68,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="mb-3">
                         <label for="altBaslik">Alt Başlık</label>
-                        <textarea name="altBaslik" class="form-control"><?php echo $altBaslik; ?></textarea>
+                        <input type="text" name="altBaslik" class="form-control" value="<?php echo $altBaslik; ?>">
                         <div class="badge text-bg-danger p-2 mt-2"><?php echo $altBaslikErr; ?></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aciklama">Açıklama</label>
+                        <textarea name="aciklama" class="form-control"><?php echo $aciklama; ?></textarea>
+                        <div class="badge text-bg-danger p-2 mt-2"><?php echo $aciklamaErr; ?></div>
                     </div>
                     <div>
                         <div class="input-group mb-3">
@@ -79,4 +91,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </div>
 
+<?php include 'partials/_editor.php' ?>
 <?php include 'partials/_footer.php' ?>
