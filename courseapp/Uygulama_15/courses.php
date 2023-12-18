@@ -7,14 +7,21 @@ require "libs/functions.php";
 
 <?php
 
-if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
-    $selectedCategory = $_GET["categoryid"];
-    $kurslar = getCoursesByCategoryId($selectedCategory);
-} elseif (isset($_GET["q"])) {
-    $kurslar = getCoursesByKeyword($_GET["q"]);
-} else {
-    $kurslar = getCourses(false, true);
-}
+$categoryId = "";
+$keyword = "";
+$page = 1;
+
+if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"]))
+    $categoryId = $_GET["categoryid"];
+
+if (isset($_GET["q"]))
+    $keyword = $_GET["q"];
+
+if (isset($_GET["page"]) && is_numeric($_GET["page"]))
+    $page = $_GET["page"];
+
+$response = getCoursesByFilters($categoryId, $keyword, $page);
+
 
 ?>
 
@@ -31,9 +38,9 @@ if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
         <div class="col-9">
             <?php include 'partials/_title.php' ?>
 
-            <?php if (mysqli_num_rows($kurslar) > 0): ?>
+            <?php if (mysqli_num_rows($response["data"]) > 0): ?>
 
-                <?php while ($kurs = mysqli_fetch_assoc($kurslar)): ?>
+                <?php while ($kurs = mysqli_fetch_assoc($response["data"])): ?>
                     <div class="card mb-3">
                         <div class="row">
                             <div class="col-4">
@@ -81,8 +88,39 @@ if (isset($_GET["categoryid"]) && is_numeric($_GET["categoryid"])) {
                 </div>
 
             <?php endif; ?>
+
+            <?php if ($response["total_pages"] > 1): ?>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <?php for ($x = 1; $x <= $response["total_pages"]; $x++): ?>
+                            <li class="page-item <?php if ($x == $page) echo "active" ?>">
+                                <a class="page-link"
+                                   href="
+                                   <?php
+                                   $url = "?page=" . $x;
+
+                                   if (!empty($categoryId)) {
+                                       $url .= "&categoryid=" . $categoryId;
+                                   }
+
+                                   if (!empty($keyword)) {
+                                       $url .= "&q=" . $keyword;
+                                   }
+
+                                   echo $url;
+                                   ?>
+                                "
+                                >
+                                    <?php echo $x ?>
+                                </a>
+                            </li>
+                        <?php endfor; ?>
+                    </ul>
+                </nav>
+            <?php endif ?>
         </div>
     </div>
+
 </div>
 
 <?php include 'partials/_footer.php' ?>

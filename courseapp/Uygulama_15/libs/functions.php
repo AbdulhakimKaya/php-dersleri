@@ -162,6 +162,42 @@ function getCoursesByKeyword(string $q)
 }
 
 
+function getCoursesByFilters($categoryId, $keyword, $page)
+{
+    include 'ayar.php';
+
+    $pageCount = 2;
+    $offset = ($page - 1) * $pageCount;
+    $query = "";
+
+    if (!empty($categoryId)) {
+        $query = "from `kurs_kategori` kc inner join kurslar k on kc.kurs_id = k.id WHERE kc.kategori_id=$categoryId and onay=1";
+    } else {
+        $query = "from kurslar WHERE onay=1";
+    }
+
+    if (!empty($keyword)) {
+        $query .= " and baslik LIKE '%$keyword%' or altBaslik LIKE '%$keyword%'";
+    }
+
+    $totalSql = "SELECT COUNT(*) " . $query;
+    $count_data = mysqli_query($baglanti, $totalSql);
+    $count = mysqli_fetch_array($count_data)[0];
+    $totalPages = ceil($count / $pageCount);
+
+    $sql = "SELECT *" . $query . " LIMIT $offset, $pageCount";
+
+    $sonuc = mysqli_query($baglanti, $sql);
+
+    mysqli_close($baglanti);
+
+    return array(
+        "total_pages" => $totalPages,
+        "data" => $sonuc
+    );
+}
+
+
 function editCourse(int $id, string $baslik, string $altBaslik, string $aciklama, string $resim, int $onay, int $anasayfa)
 {
     include 'ayar.php';
