@@ -21,8 +21,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $usernameErr = "username gerekli alan" . "<br>";
     } elseif (strlen($_POST["username"]) < 3 or strlen($_POST["username"]) > 50) {
         $usernameErr = "username 3-50 karakter aralığında olmalıdır" . "<br>";
-    } elseif (!preg_match('/^[A-Za-z]{1}[A-Za-z0-9]{5-31}$/', $_POST["username"])) {
-        $usernameErr = "username harf, rakam ve alt çizgi karakterlerinden oluşabilir." . "<br>";
     } else {
         $username = safe_html($_POST["username"]);
     }
@@ -51,6 +49,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $repasswordErr = "parola tekrarı alanı eşleşmiyor" . "<br>";
     } else {
         $repassword = safe_html($_POST["repassword"]);
+    }
+
+    if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($repasswordErr)) {
+        include "ayar.php";
+
+        $sql = "INSERT INTO kullanicilar(username,email,password) VALUES(?,?,?)";
+
+        if ($stmt = mysqli_prepare($baglanti, $sql)) {
+            $paramUsername = $username;
+            $paramEmail = $email;
+            $paramPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            mysqli_stmt_bind_param($stmt, "sss", $paramUsername, $paramEmail, $paramPassword);
+
+            if (mysqli_stmt_execute($stmt)) {
+                header("Location: login.php");
+            } else {
+                echo mysqli_error($baglanti);
+                echo "<br>";
+                echo "hata oluştu";
+            }
+        }
     }
 }
 
