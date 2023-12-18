@@ -12,20 +12,25 @@ require "libs/functions.php";
 
 <?php
 
-$usernameErr = $emailErr = $passwordErr = $repasswordErr = $cityErr = $hobbiesErr = "";
-$username = $email = $password = $repassword = $city = "";
-$hobbies = [];
+$usernameErr = $emailErr = $passwordErr = $repasswordErr = "";
+$username = $email = $password = $repassword = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (empty($_POST["username"])) {
         $usernameErr = "username gerekli alan" . "<br>";
+    } elseif (strlen($_POST["username"]) < 3 or strlen($_POST["username"]) > 50) {
+        $usernameErr = "username 3-50 karakter aralığında olmalıdır" . "<br>";
+    } elseif (!preg_match('/^[A-Za-z]{1}[A-Za-z0-9]{5-31}$/', $_POST["username"])) {
+        $usernameErr = "username harf, rakam ve alt çizgi karakterlerinden oluşabilir." . "<br>";
     } else {
         $username = safe_html($_POST["username"]);
     }
 
     if (empty($_POST["email"])) {
         $emailErr = "email gerekli alan" . "<br>";
+    } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+        $emailErr = "email bilgisi hatalı" . "<br>";
     } else {
         $email = safe_html($_POST["email"]);
     }
@@ -47,18 +52,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $repassword = safe_html($_POST["repassword"]);
     }
-
-    if (($_POST["city"]) == -1) {
-        $cityErr = "city seçilmeli" . "<br>";
-    } else {
-        $city = $_POST["city"];
-    }
-
-    if (!isset($_POST["hobbies"])) {
-        $hobbiesErr = "hobiler seçilmeli" . "<br>";
-    } else {
-        $hobbies = $_POST["hobbies"];
-    }
 }
 
 ?>
@@ -66,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="container my-3">
     <div class="row">
         <div class="col-12">
-            <form action="register.php" method="POST">
+            <form action="register.php" method="POST" novalidate>
                 <div class="mb-3">
                     <label for="username">Kullanıcı adı</label>
                     <input type="text" name="username" class="form-control" value="<?php echo $username; ?>">
@@ -86,37 +79,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="repassword">Parola Tekrarı</label>
                     <input type="password" name="repassword" class="form-control" value="<?php echo $repassword; ?>">
                     <div class="badge text-bg-danger p-2 mt-2"><?php echo $repasswordErr; ?></div>
-                </div>
-                <div class="mb-3">
-                    <label for="city">İl</label>
-                    <select name="city" class="form-select">
-                        <option value="-1" selected>İl seçiniz..</option>
-                        <?php foreach ($sehirler as $plaka => $sehir): ?>
-                            <option
-                                    value="<?php echo $plaka; ?>"
-                                <?php echo $city == $plaka ? ' selected' : ''; ?>
-                            >
-                                <?php echo $sehir; ?>
-                            </option>
-                        <?php endforeach ?>
-                    </select>
-                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $cityErr; ?></div>
-                </div>
-                <div class="mb-3">
-                    <label for="hobbies">Hobiler</label>
-                    <?php foreach ($hobiler as $id => $hobi): ?>
-                        <div class="form-check">
-                            <input
-                                    type="checkbox"
-                                    name="hobbies[]"
-                                    value="<?php echo $hobi ?>"
-                                    id="hobbies_<?php echo $id ?>"
-                                <?php if (in_array($hobi, $hobbies)) echo 'checked' ?>
-                            >
-                            <label for="hobbies_<?php echo $id ?>" class="form-check-label"><?php echo $hobi ?></label>
-                        </div>
-                    <?php endforeach ?>
-                    <div class="badge text-bg-danger p-2 mt-2"><?php echo $hobbiesErr; ?></div>
                 </div>
                 <button type="submit" class="btn btn-primary">Kayıt Ol</button>
             </form>
