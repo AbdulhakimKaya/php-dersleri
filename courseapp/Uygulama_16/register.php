@@ -2,6 +2,8 @@
 
 require "libs/variables.php";
 require "libs/functions.php";
+include "libs/ayar.php";
+
 
 ?>
 
@@ -22,7 +24,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (strlen($_POST["username"]) < 3 or strlen($_POST["username"]) > 50) {
         $usernameErr = "username 3-50 karakter aralığında olmalıdır" . "<br>";
     } else {
-        $username = safe_html($_POST["username"]);
+        $sql = "SELECT id from kullanicilar WHERE username=?";
+
+        if ($stmt = mysqli_prepare($baglanti, $sql)) {
+            $paramUsername = trim($_POST["username"]);
+            mysqli_stmt_bind_param($stmt, "s", $paramUsername);
+
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_store_result($stmt);
+
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    $usernameErr = "kullanıcı adı alınmış";
+                } else {
+                    $username = safe_html($_POST["username"]);
+                }
+            } else {
+                echo mysqli_error($baglanti);
+                echo "hata oluştu";
+            }
+        }
     }
 
     if (empty($_POST["email"])) {
@@ -30,7 +50,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
         $emailErr = "email bilgisi hatalı" . "<br>";
     } else {
-        $email = safe_html($_POST["email"]);
+        $sql = "SELECT id from kullanicilar WHERE email=?";
+
+        if ($stmt = mysqli_prepare($baglanti, $sql)) {
+            $paramEmail = trim($_POST["email"]);
+            mysqli_stmt_bind_param($stmt, "s", $paramEmail);
+
+            if (mysqli_stmt_execute($stmt)) {
+                mysqli_stmt_store_result($stmt);
+
+                if (mysqli_stmt_num_rows($stmt) == 1) {
+                    $emailErr = "email alınmış";
+                } else {
+                    $email = safe_html($_POST["email"]);
+                }
+            } else {
+                echo mysqli_error($baglanti);
+                echo "hata oluştu";
+            }
+        }
     }
 
     if (empty($_POST["password"])) {
@@ -52,8 +90,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($usernameErr) && empty($emailErr) && empty($passwordErr) && empty($repasswordErr)) {
-        include "ayar.php";
-
         $sql = "INSERT INTO kullanicilar(username,email,password) VALUES(?,?,?)";
 
         if ($stmt = mysqli_prepare($baglanti, $sql)) {
