@@ -7,8 +7,6 @@ require "libs/functions.php";
 
 <?php
 
-session_start();
-
 if (empty($_GET["id"])) {
     header('Location: admin-courses.php');
 }

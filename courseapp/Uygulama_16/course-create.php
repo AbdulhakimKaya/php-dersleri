@@ -12,8 +12,6 @@ require "libs/functions.php";
 
 <?php
 
-session_start();
-
 $baslik = $baslikErr = "";
 $altBaslik = $altBaslikErr = "";
 $resim = $resimErr = "";

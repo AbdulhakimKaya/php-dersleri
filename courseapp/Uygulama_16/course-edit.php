@@ -12,8 +12,6 @@ require "libs/functions.php";
 
 <?php
 
-session_start();
-
 $id = $_GET["id"];
 $sonuc = getCourseById($id);
 $selectedCourse = mysqli_fetch_assoc($sonuc);

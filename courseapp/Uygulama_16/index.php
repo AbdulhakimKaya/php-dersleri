@@ -3,8 +3,6 @@
 require "libs/variables.php";
 require "libs/functions.php";
 
-session_start();
-
 ?>
 
 <?php
