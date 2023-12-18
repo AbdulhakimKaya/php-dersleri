@@ -1,12 +1,9 @@
 <?php
 
-//setcookie("username", "", time() - (60 * 60 * 24));
-//setcookie("auth", false, time() - (60 * 60 * 24));
+session_start();
 
+$_SESSION = array();
 
-// dizinin cookie ile saklanması
+session_destroy();
 
-setcookie("auth[username]", "", time() - (60 * 60 * 24));
-setcookie("auth[name]", "", time() - (60 * 60 * 24));
-
-header("Location: index.php");
+header("Location: login.php");

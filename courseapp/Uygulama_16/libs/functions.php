@@ -1,5 +1,12 @@
 <?php
 
+
+function isLoggedIn()
+{
+    return (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]);
+}
+
+
 function getCategories()
 {
     include 'ayar.php';
